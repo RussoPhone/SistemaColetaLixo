@@ -18,7 +18,7 @@ class EstacaoTransferencia {
         filaPequenos = novaFila;
     }
 
-    void processar(int tempoAtual) {
+    void processar(int tempoAtual) { //algoritmo para o processamento de caminhões pequenos e grandes em estações
         Fila novosEmViagem = new Fila();
         while (!filaGrandesEmViagem.estaVazia()) {
             CaminhaoGrande g = (CaminhaoGrande) filaGrandesEmViagem.desenfileirar();
@@ -76,7 +76,7 @@ class EstacaoTransferencia {
 
     void receber(CaminhaoPequeno c) {
         filaPequenos.enfileirar(c);
-    }
+    } // algoritmo para chegada de caminhões pequenos e montagem de fila
 
     String status(int id) {
         StringBuilder sb = new StringBuilder();

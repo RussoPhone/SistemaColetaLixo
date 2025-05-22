@@ -17,11 +17,11 @@ class CaminhaoPequeno {
         this.zona = zona;
     }
 
-    boolean podeViajar() {
+    boolean podeViajar() { //Algoritmo para verificar se o tempo de viagem foi alcançado
         return viagens < Config.MAX_VIAGENS_CAMINHAO_PEQ && !emViagem && !paraSubstituicao;
     }
 
-    void iniciarViagemColeta(int duracao, int cargaColetada) {
+    void iniciarViagemColeta(int duracao, int cargaColetada) { //algoritmo para inicio de viagem
         cargaAtual = Math.min(cargaAtual + cargaColetada, capacidade);
         viagens++;
         tempoRestante = duracao;
@@ -34,7 +34,7 @@ class CaminhaoPequeno {
         }
     }
 
-    void irParaEstacao(boolean horarioPico) {
+    void irParaEstacao(boolean horarioPico) { //algoritmo para caso alcançar o max de viagens ou a capacidade maxima
         int[] tempos = horarioPico ?
                 Config.TEMPO_VIAGEM_PICO[zona] :
                 Config.TEMPO_VIAGEM_NORMAL[zona];
@@ -43,7 +43,7 @@ class CaminhaoPequeno {
         proposito = "Indo para estação";
     }
 
-    void atualizarTempo() {
+    void atualizarTempo() { //algoritmo para atualizar tempo de viagem
         if (emViagem && tempoRestante > 0) tempoRestante--;
         if (tempoRestante <= 0) emViagem = false;
     }

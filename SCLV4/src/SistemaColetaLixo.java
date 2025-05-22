@@ -1,6 +1,6 @@
 import java.util.Random;
 
-public class SistemaColetaLixo {
+public class SistemaColetaLixo { //a classe principal
     private static final Random rand = new Random();
     CaminhaoPequeno[] caminhoesPequenos;
     EstacaoTransferencia[] estacoes;
@@ -16,7 +16,7 @@ public class SistemaColetaLixo {
         inicializarEstacoes();
     }
 
-    private void inicializarCaminhoes() {
+    private void inicializarCaminhoes() { //Algoritmo para inicio de viagem dos caminhões
         caminhoesPequenos = new CaminhaoPequeno[10];
         for (int i = 0; i < caminhoesPequenos.length; i++) {
             int zona = i % 5;
@@ -25,14 +25,14 @@ public class SistemaColetaLixo {
         }
     }
 
-    private void inicializarEstacoes() {
+    private void inicializarEstacoes() { //algoritmo para preparar as estações e inicializa-las
         estacoes = new EstacaoTransferencia[2];
         for (int i = 0; i < estacoes.length; i++) {
             estacoes[i] = new EstacaoTransferencia();
         }
     }
 
-    public void simularDia() {
+    public void simularDia() { //algoritmo para a duração da simulação e intervalo de relatorio
         for (int minuto = 0; minuto < Config.DURACAO_SIMULACAO; minuto++) {
             boolean horarioPico = verificarHorarioPico(minuto);
 
@@ -46,7 +46,7 @@ public class SistemaColetaLixo {
         gerarRelatorioFinal();
     }
 
-    private boolean verificarHorarioPico(int minuto) {
+    private boolean verificarHorarioPico(int minuto) { //algoritmo para verificar os horarios de picos
         for (int i = 0; i < Config.INICIOS_PICO.length; i++) {
             if (minuto >= Config.INICIOS_PICO[i] && minuto <= Config.FINS_PICO[i]) {
                 return true;
@@ -54,7 +54,7 @@ public class SistemaColetaLixo {
         }
         return false;
     }
-    void substituirCaminhao(CaminhaoPequeno antigo) {
+    void substituirCaminhao(CaminhaoPequeno antigo) { //algoritmo para substituir caminhões pequenos
         for (int i = 0; i < caminhoesPequenos.length; i++) {
             if (caminhoesPequenos[i] == antigo) {
                 caminhoesPequenos[i] = new CaminhaoPequeno(antigo.capacidade, antigo.zona);
@@ -64,7 +64,7 @@ public class SistemaColetaLixo {
         }
     }
 
-    private void processarCaminhoesPequenos(boolean horarioPico) {
+    private void processarCaminhoesPequenos(boolean horarioPico) { //algoritmo para processamento de lixo de caminhões pequenos
         for (CaminhaoPequeno caminhao : caminhoesPequenos) {
             if (!caminhao.emViagem && caminhao.podeViajar()) {
                 int lixo = gerarLixo(caminhao.zona);
@@ -84,7 +84,7 @@ public class SistemaColetaLixo {
         }
     }
 
-    private void processarEstacoes() {
+    private void processarEstacoes() { //algoritmo de processamento das estações
         for (EstacaoTransferencia estacao : estacoes) {
             estacao.processar(0);
             estacao.substituirCaminhoesVelhos(this);
@@ -103,7 +103,7 @@ public class SistemaColetaLixo {
         return tempos[0] + rand.nextInt(tempos[1] - tempos[0] + 1);
     }
 
-    private void gerarRelatorioHora(int hora) {
+    private void gerarRelatorioHora(int hora) { //logica do relatorio de hora em hora
         String horario = String.format("%02d:00-%02d:59", hora, hora);
 
         System.out.println(Config.AZUL + "\n╔════════════════════════════════════════════════╗");
@@ -159,7 +159,7 @@ public class SistemaColetaLixo {
         }
     }
 
-    private void gerarRelatorioFinal() {
+    private void gerarRelatorioFinal() { //Algoritmo com calculos para examinar o relatorio final
         System.out.println(Config.AZUL + "\n╔════════════════════════════════════════════════╗");
         System.out.println("║ " + Config.NEGRITO + "RELATÓRIO FINAL DA SIMULAÇÃO" + Config.RESET + Config.AZUL + "             ║");
         System.out.println("╚════════════════════════════════════════════════╝" + Config.RESET);
@@ -178,7 +178,7 @@ public class SistemaColetaLixo {
                     Config.AMARELO, percentual, Config.RESET);
         }
 
-        System.out.println(Config.VERDE + "\n[DESEMPENHO DAS ESTAÇÕES]" + Config.RESET);
+        System.out.println(Config.VERDE + "\n[DESEMPENHO DAS ESTAÇÕES]" + Config.RESET); //calculo do desempenho das estações durante a simulação
         int totalAdicionados = 0;
         for (int i = 0; i < estacoes.length; i++) {
             System.out.printf("%sEstação %d:%s\n", Config.NEGRITO, i, Config.RESET);
@@ -191,9 +191,9 @@ public class SistemaColetaLixo {
 
         int totalCaminhoes = estacoes.length + totalAdicionados;
         System.out.printf("\n%sCONCLUSÃO:%s\n", Config.VERDE, Config.RESET);
-        System.out.printf("  O município precisa de %s%d caminhões de 20 toneladas%s\n",
+        System.out.printf("  Teresina precisa de %s%d caminhões de 20 toneladas%s\n", // calculo com a quantidade necessaria para poder processar em estações e cletar lixos
                 Config.AMARELO, totalCaminhoes, Config.RESET);
-        System.out.printf("  %sEficiência geral do sistema: %.1f%%%s\n",
+        System.out.printf("  %sEficiência geral do sistema: %.1f%%%s\n", //calculo de eficiencia da simulação no dia com os parametros escolhidos
                 Config.CIANO,
                 (estacoes[0].getTotalLixoProcessado() + estacoes[1].getTotalLixoProcessado()) * 100.0 / totalLixoColetado,
                 Config.RESET);
